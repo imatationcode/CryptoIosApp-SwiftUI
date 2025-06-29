@@ -9,12 +9,16 @@ import SwiftUI
 
 struct CoinRowView: View {
     let coin: CoinModal
+    let showHoldings: Bool
     
     var body: some View {
         HStack {
             leftView
             Spacer()
-            middleView
+            if showHoldings {
+                middleView
+            }
+            
             rightView
         }
         .font(.subheadline)
@@ -22,7 +26,9 @@ struct CoinRowView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    CoinRowView(coin: DeveloperMockData.instance.coin)
+    
+    CoinRowView(coin: DeveloperMockData.instance.coin, showHoldings: true)
+//            .environment(\.colorScheme, .dark)
 }
 
 extension CoinRowView {
@@ -44,7 +50,9 @@ extension CoinRowView {
     private var middleView: some View {
         VStack(alignment: .trailing) {
             Text(coin.currentHoldingValue.asNumberToStringWithTwoDecimal())
+                .foregroundColor(Color.themeColors.accent)
             Text(coin.currentHoldings?.asNumberToStringWithTwoDecimal() ?? "0")
+                .foregroundColor(Color.themeColors.accent)
         }
         
     }
@@ -52,6 +60,7 @@ extension CoinRowView {
     private var rightView: some View {
         VStack(alignment: .trailing) {
             Text("\(coin.currentPrice.asCurrencywithTwoToSixDecimal())")
+                .foregroundColor(Color.themeColors.accent)
                 .font(.headline)
             Text(coin.priceChangePercentage24H?.asNumberWithPercentageSign() ?? " ")
                 .font(.caption)
@@ -59,6 +68,6 @@ extension CoinRowView {
                     (coin.priceChangePercentage24H ?? 0 ) >= 0 ? Color.themeColors.green : Color.themeColors.red
                 )
         }
-        .frame(width: UIScreen.main.bounds.width / 3, alignment: .trailing)
+        .frame(width: UIScreen.main.bounds.width / 3.5, alignment: .trailing)
     }
 }

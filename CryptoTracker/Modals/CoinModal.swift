@@ -5,7 +5,7 @@
 //  Created by Shivakumar Harijan on 24/06/25.
 //
 
-    // Coin API DATA
+    // Coin API JSON DATA For reference 
     /*
      url :
      https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&symbols=btc&include_tokens=all&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=1h&locale=en&precision=full
@@ -64,7 +64,7 @@ struct CoinModal: Identifiable, Codable {
     let marketCap, marketCapRank, fullyDilutedValuation, totalVolume: Double?
     let high24H, low24H, priceChange24H: Double?
     let priceChangePercentage24H: Double? 
-    let marketCapChange24H: Int?
+    let marketCapChange24H: Double?
     let marketCapChangePercentage24H: Double?
     let circulatingSupply, totalSupply, maxSupply, ath: Double?
     let athChangePercentage: Double?

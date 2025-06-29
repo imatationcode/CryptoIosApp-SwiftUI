@@ -7,8 +7,11 @@
 
 import Foundation
 import SwiftUI
+
 class DeveloperMockData {
     static let instance = DeveloperMockData()
+    static let homeVM = HomeViewModal()
+    
     private init() {}
     
     let coin = CoinModal(id: "bitcoin",
