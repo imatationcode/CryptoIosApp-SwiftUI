@@ -23,38 +23,26 @@ class CoinDataService {
             return
         }
         
-        // 2. Create a URLRequest to add headers.
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+       coinSubscription = NetworkingManager.fetchData(from: url)
         
-        // 3. Access the API key from your Credentials struct.
-        let apiKey = APICredentials.coingeckoAPIKey
+    ///Below code is moved to Netwrok Manager file for Resualble purpose
+//        URLSession.shared.dataTaskPublisher(for: request)
+//            .subscribe(on: DispatchQueue.global())
+//            .tryMap { (output) -> Data in
+//                guard let response = output.response as? HTTPURLResponse,
+//                      response.statusCode >= 200 && response.statusCode < 300 else {
+//                          throw URLError(.badServerResponse)
+//                      }
+//                return output.data
+//            }
+//            .receive(on: DispatchQueue.main)
         
-        // 4. Set the headers required by the API.
-        request.setValue("application/json", forHTTPHeaderField: "accept")
-        request.setValue(apiKey, forHTTPHeaderField: "x-cg-demo-api-key")
-
         
-       coinSubscription = URLSession.shared.dataTaskPublisher(for: request)
-            .subscribe(on: DispatchQueue.global())
-            .tryMap { (output) -> Data in
-                guard let response = output.response as? HTTPURLResponse,
-                      response.statusCode >= 200 && response.statusCode < 300 else {
-                          throw URLError(.badServerResponse)
-                      }
-                return output.data
-            }
-            .receive(on: DispatchQueue.main)
             .decode(type: [CoinModal].self, decoder: JSONDecoder())
-            .sink (receiveCompletion:{ (compelition) in
-                switch compelition {
-                case .failure(let error):
-                    print( error.localizedDescription)
-                case .finished:
-                    print("Finished")
-                }
-            }, receiveValue: { [weak self] value in
-                self?.allCoins = value
+            .sink (receiveCompletion:
+                NetworkingManager.handdleCompletion
+            , receiveValue: { [weak self] returnedCoins in
+                self?.allCoins = returnedCoins
                 self?.coinSubscription?.cancel()
             })
     }

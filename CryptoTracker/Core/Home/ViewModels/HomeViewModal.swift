@@ -13,12 +13,14 @@ class HomeViewModal: ObservableObject {
     
     @Published var holdingsCoinList: [CoinModal] = []
     
-    private let coinDataService = CoinDataService()
+    private let coinDataService = CoinDataService() // that get all coins in init function will be exuted
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
         addSubscriber()
     }
+    
     func addSubscriber() {
         coinDataService.$allCoins
             .sink { [weak self] (returnedCoins) in
