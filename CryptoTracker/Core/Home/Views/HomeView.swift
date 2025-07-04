@@ -15,12 +15,13 @@ struct HomeView: View {
     
     var body: some View {
         //background layer
-        ZStack {
+        ZStack { 
             Color.themeColors.background
                 .ignoresSafeArea()
             //content layer
             VStack {
                 homeHeader
+                SearchBarView(searchText: $vm.searchText)
                 Spacer()
                 listColumnTitlesView
 
