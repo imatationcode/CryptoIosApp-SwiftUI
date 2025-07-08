@@ -9,12 +9,17 @@ import Foundation
 import Combine
 
 class HomeViewModal: ObservableObject {
+    
+    @Published var statistics: [StatisticsModal] = []
+    
     @Published var allCoinList: [CoinModal] = []
     
     @Published var holdingsCoinList: [CoinModal] = []
     @Published var searchText: String = ""
     
-    private let coinDataService = CoinDataService() // that get all coins in init function will be exuted
+    private let coinDataService = CoinDataService() // that get all coins when init function will be exuted
+    
+    private let marketDataService = GlobelMarketDataService()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -48,6 +53,31 @@ class HomeViewModal: ObservableObject {
         
             .sink { [weak self] (returnedCoins) in
                 self?.allCoinList = returnedCoins
+            }
+            .store(in: &cancellables)
+        
+        marketDataService.$marketData
+            .map { (marketDataModal) -> [StatisticsModal] in
+                var stats: [StatisticsModal] = []
+                
+                guard let data = marketDataModal else { return stats }
+                
+                let marketCap = StatisticsModal(title: "Market Cap", value: data.marketCap, percentageChnage: data.marketCapChangePercentage24HUsd)
+                let volume = StatisticsModal(title: "24h Volume", value: data.volume)
+                let btcDominance = StatisticsModal(title: "BTC Dominance", value: data.btcDominance)
+                let portFolioValue = StatisticsModal(title: "Portfolio Value", value: "50.00", percentageChnage: 0)
+                
+                stats.append(contentsOf: [
+                    marketCap,
+                    volume,
+                    btcDominance,
+                    portFolioValue
+                ])
+                
+                return stats
+            }
+            .sink { [weak self] (returnedStats) in
+                self?.statistics = returnedStats
             }
             .store(in: &cancellables)
     }

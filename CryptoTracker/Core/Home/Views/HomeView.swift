@@ -21,6 +21,7 @@ struct HomeView: View {
             //content layer
             VStack {
                 homeHeader
+                HomeStatsView(showPortfolio: $showPortfolio)
                 SearchBarView(searchText: $vm.searchText)
                 Spacer()
                 listColumnTitlesView
@@ -41,7 +42,7 @@ struct HomeView: View {
     NavigationView {
         HomeView()
     }
-    .environmentObject(DeveloperMockData.homeVM)
+    .environmentObject(DeveloperMockData.instance.homeVM)
 }
 
 extension HomeView {

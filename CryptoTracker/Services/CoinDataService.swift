@@ -47,11 +47,4 @@ class CoinDataService {
             })
     }
 }
-        
-        ///AutoCompleted Code
-        //            .map(\.data)
-        //            .decode(type: [CoinModal].self, decoder: JSONDecoder())
-        //            .receive(on: DispatchQueue.main)
-        //            .sink(receiveCompletion: { _ in }, receiveValue: { [weak self] value in
-        //                self?.allCoins = value
-        //            }
+

@@ -10,7 +10,9 @@ import SwiftUI
 
 class DeveloperMockData {
     static let instance = DeveloperMockData()
-    static let homeVM = HomeViewModal()
+    let homeVM = HomeViewModal()
+    
+    let stats1 = StatisticsModal(title: "MarketCap", value: "234Bn", percentageChnage: 34.0)
     
     private init() {}
     

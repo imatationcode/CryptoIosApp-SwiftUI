@@ -24,14 +24,14 @@ class LocalFileManager {
             let imgData = image.pngData(),
             let url = getURLforImage(imageName: imageName, folderName: folderName)
             else {
-//                print("Could not retrive image data passed , to be stored in file system")
+                print("Could not retrive image data passed , to be stored in file system")
                 return
             }
         do {
             try imgData.write(to: url)
         } catch let error {
             let errorMessage = error.localizedDescription
-//            print("Error while saving image to file system : \(errorMessage)")
+            print("Error while saving image to file system : \(errorMessage)")
         }
     }
     

@@ -27,10 +27,10 @@ class CoinImageService {
     private func getCoinImage() {
         if let savedImage = localfileManager.getImage(imageName: imageName, folderName: foldername) {
             coinImage = savedImage
-            print("Image retrived from folder locally")
+//            print("Image retrived from folder locally")
         } else {
             downloadCoinImage()
-            print("Image downloaded from internet")
+//            print("Image downloaded from internet")
         }
     }
     
