@@ -12,12 +12,17 @@ struct HomeView: View {
     @EnvironmentObject private var vm : HomeViewModal
     
     @State var showPortfolio: Bool = false
+    @State var showProtolioSheetView: Bool = false //pops up new sheet with Coins
     
     var body: some View {
         //background layer
-        ZStack { 
+        ZStack {
             Color.themeColors.background
                 .ignoresSafeArea()
+                .sheet(isPresented: $showProtolioSheetView) {
+                    PortfolioSheetView()
+                        .environmentObject(vm)
+                }
             //content layer
             VStack {
                 homeHeader
@@ -25,13 +30,12 @@ struct HomeView: View {
                 SearchBarView(searchText: $vm.searchText)
                 Spacer()
                 listColumnTitlesView
-
+                
                 if !showPortfolio {
                     allCoinsList
                 } else{
                     holdingsCoinList
                 }
-                
             }
             Spacer(minLength: 0.0)
         }
@@ -53,7 +57,13 @@ extension HomeView {
                 .transaction { transaction in
                     transaction.animation = nil
                 }
+                .onTapGesture {
+                    if showPortfolio {
+                        showProtolioSheetView.toggle()
+                    }
+                }
                 .background(AnimationForCircularButton(isAnimating: $showPortfolio))
+            
             Spacer()
             Text(showPortfolio ? "Portfolio" : "Live Prices")
                 .font(.headline)
@@ -83,7 +93,7 @@ extension HomeView {
         }
         .listStyle(PlainListStyle())
         .transition(.move(edge: .leading))
-
+        
     }
     
     private var holdingsCoinList: some View {
