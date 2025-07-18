@@ -19,7 +19,7 @@ class GlobelMarketDataService {
         getData()
     }
     
-    private func getData() {
+    func getData() {
         // 1. Create a URL object from the string.
         guard let url = URL(string: "https://api.coingecko.com/api/v3/global")
         else {

@@ -8,5 +8,5 @@
 import Foundation
 
 struct APICredentials {
-    static let coingeckoAPIKey = "APIkey"
+    static let coingeckoAPIKey = "CG-5rS3pF8YQoy96yRjT9or3h32"
 }

@@ -38,6 +38,27 @@ struct HomeView: View {
                 }
             }
             Spacer(minLength: 0.0)
+            
+            // Floating reload button
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation(.linear(duration: 2.0)) {
+                            vm.reloadAllCoinData()
+                        }
+                    } label: {
+                        Image(systemName: "arrow.clockwise.circle.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(Color.themeColors.accent)
+                            .shadow(color: .black.opacity(0.3), radius: 10, x: 5, y: 5)
+                    }
+                    .rotationEffect(Angle(degrees: vm.isLoading ? 360 : 0))
+                    .padding()
+                }
+            }
         }
     }
 }
@@ -107,6 +128,7 @@ extension HomeView {
         .transition(.move(edge: .trailing))
         
     }
+    
     private var listColumnTitlesView: some View {
         HStack {
             Text("Coin")
@@ -121,5 +143,4 @@ extension HomeView {
         .font(.caption)
         .foregroundColor(Color.themeColors.gray)
     }
-    
 }
