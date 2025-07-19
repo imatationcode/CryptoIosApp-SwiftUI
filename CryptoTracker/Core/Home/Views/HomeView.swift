@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject private var vm : HomeViewModal
-    
+    @State var showSettingsView: Bool = false
     @State var showPortfolio: Bool = false
     @State var showProtolioSheetView: Bool = false //pops up new sheet with Coins
     
@@ -22,6 +22,7 @@ struct HomeView: View {
                 .sheet(isPresented: $showProtolioSheetView) {
                     PortfolioSheetView()
                         .environmentObject(vm)
+                    
                 }
             //content layer
             VStack {
@@ -37,6 +38,10 @@ struct HomeView: View {
                     holdingsCoinList
                 }
             }
+            .sheet(isPresented: $showSettingsView, content: {
+                SettingsView()
+                    .environmentObject(vm)
+            })
             Spacer(minLength: 0.0)
             
             // Floating reload button
@@ -51,9 +56,18 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "arrow.clockwise.circle.fill")
                             .resizable()
-                            .frame(width: 50, height: 50)
                             .foregroundColor(Color.themeColors.accent)
-                            .shadow(color: .black.opacity(0.3), radius: 10, x: 5, y: 5)
+                            .frame(width: 40, height: 40)
+                            .background(
+                                Circle()
+                                    .fill(Color.themeColors.background)
+                            )
+                            .shadow(
+                                color: Color.themeColors.accent.opacity(0.3), radius: 10.0)
+//                            .padding()
+//                            .frame(width: 50, height: 50)
+//                            .foregroundColor(Color.themeColors.accent)
+//                            .shadow(color: Color.themeColors.accent.opacity(0.3), radius: 10, x: 5, y: 5)
                     }
                     .rotationEffect(Angle(degrees: vm.isLoading ? 360 : 0))
                     .padding()
@@ -79,8 +93,11 @@ extension HomeView {
                     transaction.animation = nil
                 }
                 .onTapGesture {
+//                    if view is showing user portfolio
                     if showPortfolio {
                         showProtolioSheetView.toggle()
+                    } else {
+                        showSettingsView.toggle()
                     }
                 }
                 .background(AnimationForCircularButton(isAnimating: $showPortfolio))
