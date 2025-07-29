@@ -11,6 +11,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
     let tutorialURL = URL(string: "https://www.youtube.com/playlist?list=PLwvDm4Vfkdphbc3bgy_LpLRQ9DDfFGcFu")!
+    
     let resourceURL = URL( string: "https://www.coingecko.com/")!
     
     let personalPortfolioURL = URL( string: "https://github.com/imatationcode")!
@@ -43,7 +44,7 @@ struct SettingsView: View {
                             .foregroundColor(Color.themeColors.accent)
                     }
                     .padding(.vertical)
-                    Link("Visit their website 🌐", destination: tutorialURL)
+                    Link("Visit their website 🌐", destination: resourceURL)
                 }
                 
                 Section("Developer") {
